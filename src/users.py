@@ -18,11 +18,16 @@ def login(username, password):
 def logout():
     del session["user_id"]
 
-def register(username, password):
+def register(username, password, admin):
+    if username == None or password == "":
+        return False
+
+    if admin == None:
+        admin = 0
     hash_value = generate_password_hash(password)
     try:
-        sql = "INSERT INTO users (username,password) VALUES (:username,:password)"
-        db.session.execute(sql, {"username":username, "password":hash_value})
+        sql = "INSERT INTO users (username,password, admin) VALUES (:username,:password, :admin)"
+        db.session.execute(sql, {"username":username, "password":hash_value, "admin":admin})
         db.session.commit()
     except:
         return False
@@ -30,3 +35,13 @@ def register(username, password):
 
 def user_id():
     return session.get("user_id",0)
+
+def admin():
+    if user_id()==0:
+        # If the user doesn't exist
+        return False
+    id = user_id()
+    sql = "SELECT admin FROM users WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    admin = result.fetchone()[0]
+    return admin == 1

@@ -17,7 +17,7 @@ def send():
     if messages.send(content):
         return redirect("/")
     else:
-        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+        return render_template("error.html", message="Unable to send a message")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -29,7 +29,7 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("error.html", message="Wrong username or password")
 
 @app.route("/logout")
 def logout():
@@ -44,9 +44,10 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        admin = request.form.get("admin")
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eroavat")
-        if users.register(username, password1):
+            return render_template("error.html", message="Passwords differ!")
+        if users.register(username, password1, admin):
             return redirect("/")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return render_template("error.html", message="Unable to register the account")
