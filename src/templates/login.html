@@ -5,15 +5,15 @@
 
 <body>
     <form action="/login" method="POST">
-        Username: <input type="text" name="username">
+        Username: <input type="text" name="username" placeholder="username">
         <p>
-            Password: <input type="password" name="password">
+            Password: <input type="password" name="password" placeholder="password">
         <p>
             <input type="submit" value="Sign in">
     </form>
-    Create a new account <a href="/register">here</a>
-    <hr>
-    <a href="/">Main page</a>
+    Don't have an account yet?
+    <a href="/register" class="button_inline">Register</a>
+
 </body>
 
 {% endblock %}

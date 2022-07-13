@@ -1,9 +1,23 @@
-<!doctype html>
-<title>Keskustelusovellus - {% block title %}{% endblock %}</title>
-<h1>Keskustelusovellus</h1>
-<a href="/">Main page</a>
-<br>
-<a href="/login">Log in</a>
-<hr>
-{% block content %}{% endblock %}
-</hr>
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='./main.css')}}"/>
+<link rel="shortcut icon" href="#"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<body>
+
+    <title>Keskustelusovellus - {% block title %}{% endblock %}</title>
+    <h1>Keskustelusovellus</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Main page</a></li>
+            <li><a href="/login">Log in</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <hr>
+            {% block content %}{% endblock %}
+        </hr>
+    </div>
+
+</body>
