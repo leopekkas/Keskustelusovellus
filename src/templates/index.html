@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
 Viestien määrä: {{ count }}
 <hr>
 {% for message in messages %}
@@ -14,3 +18,5 @@ Olet kirjautunut sisään.
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}
+
+{% endblock %}
