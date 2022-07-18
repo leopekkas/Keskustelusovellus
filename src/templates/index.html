@@ -4,13 +4,14 @@
 {% block content %}
 Message count: {{ count }}
 <hr>
-{% for message in messages %}
-<i>Message:</i> {{ message[0] }}
-<p>
-<i>Sender:</i> {{ message[1] }}
-<p>
-<i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
-<hr>
+{% for area in message_areas %}
+    <div>
+        <ul>
+            <li>
+                {{ area.name }} | <a href="/area/{{ area.id }}"></a>
+            </li>
+        </ul>
+    </div>
 {% endfor %}
 {% if session.user_id %}
 You're logged in.

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+<body>
+
+{% for message in messages %}
+
+    <hr>{{ message.content }}
+    <br>
+    
+{% endfor %}
+
+</body>
+
+{% endblock %}

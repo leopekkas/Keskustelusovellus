@@ -1,11 +1,15 @@
 from app import app
+from db import db
 from flask import render_template, request, redirect
 import messages, users
 
 @app.route("/")
 def index():
     list = messages.get_list()
-    return render_template("index.html", count=len(list), messages=list)
+    sql = "SELECT id, name FROM message_areas"
+    result = db.session.execute(sql)
+    areas = result.fetchall()
+    return render_template("index.html", count=len(list), messages=list, message_areas = areas)
 
 @app.route("/new")
 def new():
@@ -51,3 +55,16 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Unable to register the account")
+
+@app.route("/area/<int:id>")
+def area(input_id):
+    sql = "SELECT id, name from areas WHERE id=:id"
+    result = db.session.execute(sql, {"id":input_id})
+    area = result.fetchone()
+    if area == None:
+        return render_template("error.html", message="Message area not found")
+    sql = "SELECT messages.id, messages.content \
+            FROM messages WHERE visibility=1"
+    result = db.session.execute(sql)
+    message_list = result.fetchall()
+    return render_template("area.html", messages=message_list)
