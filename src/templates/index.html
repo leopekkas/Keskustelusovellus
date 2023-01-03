@@ -14,7 +14,10 @@ Message count: {{ count }}
     </div>
 {% endfor %}
 {% if session.user_id %}
-You're logged in.
+{% if session.username %}
+<p>Hi, {{ session.username }}</p>
+{% endif %}
+<p>You're logged in.</p>
 <a href="/new" class="button_inline">Send a message</a> | <a href="/logout" class="button_inline">Log out</a>
 {% else %}
 <a href="/login" class="button_inline">Log in</a>

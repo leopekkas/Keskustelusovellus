@@ -1,6 +1,6 @@
 from app import app
 from db import db
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import messages, users
 
 @app.route("/")
@@ -9,7 +9,7 @@ def index():
     sql = "SELECT id, name FROM message_areas"
     result = db.session.execute(sql)
     areas = result.fetchall()
-    return render_template("index.html", count=len(list), messages=list, message_areas = areas)
+    return render_template("index.html", count=len(list), messages=list, message_areas=areas)
 
 @app.route("/new")
 def new():
@@ -31,6 +31,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
+            session["username"] = username
             return redirect("/")
         else:
             return render_template("error.html", message="Wrong username or password")
@@ -38,6 +39,7 @@ def login():
 @app.route("/logout")
 def logout():
     users.logout()
+    del session["username"]
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -52,6 +54,7 @@ def register():
         if password1 != password2:
             return render_template("error.html", message="Passwords differ!")
         if users.register(username, password1, admin):
+            session["username"] = username
             return redirect("/")
         else:
             return render_template("error.html", message="Unable to register the account")
