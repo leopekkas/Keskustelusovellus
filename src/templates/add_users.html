@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+<body>
+    <b>Add people by their username:</b>
+    <p>
+    <form action="/add" method="POST">
+        <input type="text" name="username">
+        <input type="submit" value="Add">  <span style="color:maroon"> | {{ message }}</span>
+        <input type="hidden" name="id" value="{{ id }}">
+    </form>
+    </p>
+
+</body>
+
+{% endblock %}

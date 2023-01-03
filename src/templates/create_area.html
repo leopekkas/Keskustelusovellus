@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+<body>
+    <form action="/create_area" method="POST">
+        <p><b>Message area topic: </b><br>
+            <input type="text" name="theme"><br>
+        </p>
+        <input type="submit" value="Create">
+    </form>
+</body>
+
+{% endblock %}

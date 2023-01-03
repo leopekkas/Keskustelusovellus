@@ -3,7 +3,6 @@
 
 {% block content %}
 
-Message count: {{ count }}
 <hr>
 {% for area in message_areas %}
     <div>
@@ -30,11 +29,21 @@ Message count: {{ count }}
         <div>
             {% if session.user_id %}
             <p>
-            <h4>{{ message_area[1] }}</h4> <a href="/new/{{ message_area[0] }}">Start a new conversation</a></p>
+            <h4>{{ message_area[0] }}</h4> <a href="/new/{{ message_area[1] }}">Start a new conversation</a></p>
             {% else %}
-            <h4>{{ message_area[1] }}</h4>
+            <h4>{{ message_area[0] }}</h4>
             {% endif %}
             <hr>
+
+	    {% for topic in topics %}
+            {% if topic[2] == message_area[1] %}
+            <ul>
+                <li>{{ topic[1] }} | <a href="/convo/{{ topic[0] }}">Join</a>
+                    <br>
+                </li>
+                {% endif %}
+            </ul>
+            {% endfor %}
 
         </div>
         {% endfor %}
@@ -63,11 +72,26 @@ Message count: {{ count }}
             <h4>{{ private_area[0] }}</h4> <a href="/add_users/{{ private_area[1] }}">Add members</a><br>
             <a href="/new/{{ private_area[1] }}">Start a new conversation</a></p>
 	    <hr>
+            {% for topic in topics %}
+            {% if topic[2] == private_area[1] %}
+            <ul>
+                <li>{{ topic[1] }} | <a href="/convo/{{ topic[0] }}">Join</a><br></li>
+                {% endif %}
+            </ul>
+            {% endfor %}
         </div>
+
         {% else %}
         <div>
             <h4>{{ private_area[0] }}</h4> | <a href="/new/{{ private_area[1] }}">Start a new conversation</a></p>
             <hr>
+            {% for topic in topics %}
+            {% if topic[2] == private_area[1] %}
+            <ul>
+            <li>{{ topic[1] }} | <a href="/convo/{{ topic[0] }}">Join</a><br></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
         </div>
         {% endif %}
         {% endfor %}
