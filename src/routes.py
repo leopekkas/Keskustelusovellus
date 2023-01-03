@@ -6,14 +6,27 @@ import messages, users
 @app.route("/")
 def index():
     list = messages.get_list()
+    # Fetch all message areas
     sql = "SELECT id, name FROM message_areas"
     result = db.session.execute(sql)
-    areas = result.fetchall()
-    return render_template("index.html", count=len(list), messages=list, message_areas=areas)
+    message_areas = result.fetchall()
+    # Fetch access rights and private messaging areas (plus admin rights)
+    admin = users.admin()
+    user_id = users.user_id()
+    sql = "SELECT message_areas.name, message_areas.id, message_areas.user_id FROM message_areas, access_rights \
+        WHERE access_rights.user_id=:user_id AND access_rights.message_area_id=message_areas.id"
+    result = db.session.execute(sql, {"user_id":user_id})
+    private_areas = result.fetchall()
+    if private_areas == None:
+        private_areas = []
+    return render_template("index.html", count=len(list), message_areas=message_areas, admin=admin, private_areas=private_areas)
 
-@app.route("/new")
-def new():
-    return render_template("new.html")
+@app.route("/new/<int:id>")
+def new(id):
+    sql = "SELECT name FROM message_areas WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    message_area = result.fetchone()[0]
+    return render_template("new.html", id=id, message_area=message_area)
 
 @app.route("/send", methods=["POST"])
 def send():

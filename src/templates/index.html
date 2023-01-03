@@ -2,6 +2,7 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
+
 Message count: {{ count }}
 <hr>
 {% for area in message_areas %}
@@ -22,5 +23,56 @@ Message count: {{ count }}
 {% else %}
 <a href="/login" class="button_inline">Log in</a>
 {% endif %}
+
+    <div class="grid">
+        {% for message_area in message_areas %}
+
+        <div>
+            {% if session.user_id %}
+            <p>
+            <h4>{{ message_area[1] }}</h4> <a href="/new/{{ message_area[0] }}">Start a new conversation</a></p>
+            {% else %}
+            <h4>{{ message_area[1] }}</h4>
+            {% endif %}
+            <hr>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="grid">
+        {% if admin %}
+        <p>
+        <h2>Your conversation areas</h2><br>
+        </p>
+        <b><a href="/create_area">Create a new private area</a></b><br>
+        <br>
+        {% else %}
+        <p>
+            {% if session.user_id %}
+        <h2>Your private conversation areas</h2>
+        {% endif %}
+        </p>
+        {% endif %}
+
+        <p>
+            {% for private_area in private_areas %}
+            {% if session.user_id == private_area[2] %}
+        <div>
+            <h4>{{ private_area[0] }}</h4> <a href="/add_users/{{ private_area[1] }}">Add members</a><br>
+            <a href="/new/{{ private_area[1] }}">Start a new conversation</a></p>
+	    <hr>
+        </div>
+        {% else %}
+        <div>
+            <h4>{{ private_area[0] }}</h4> | <a href="/new/{{ private_area[1] }}">Start a new conversation</a></p>
+            <hr>
+        </div>
+        {% endif %}
+        {% endfor %}
+        </p>
+
+    </div>
 
 {% endblock %}

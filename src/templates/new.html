@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+<body>
+    <p>
+        Creating a new conversation to <b>{{ area }}</b>
+    </p>
+    <form action="/create" method="POST">
+        <p><b>Topic:</b><br>
+            <input type="text" name="topic">
+            <br>
+            <b>Message:</b><br>
+            <textarea name="message" rows="6" cols="40"></textarea>
+            <input type="hidden" name="id" value="{{ id }}">
+        </p><br>
+        <input type="submit" value="Create">
+    </form>
+    <hr>
+</body>
+
+
+{% endblock %}
+
